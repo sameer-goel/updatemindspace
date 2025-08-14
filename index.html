@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Mind Space - AI Intelligence Enhancement</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            height: 100vh;
+            background-image: url('assets/images/landingpagebackground.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: #000;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .update-button {
+            background: linear-gradient(135deg, #0066ff 0%, #00aaff 60%, #8b5cf6 80%, #a855f7 100%);
+            border: 2px solid rgba(0, 170, 255, 0.4);
+            border-radius: 15px;
+            padding: 20px 50px;
+            font-size: 24px;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow:
+                0 10px 30px rgba(0, 102, 255, 0.5),
+                0 0 20px rgba(0, 170, 255, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(0, 170, 255, 0.5);
+        }
+
+        .update-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 170, 255, 0.4), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .update-button:hover {
+            transform: translateY(-5px);
+            box-shadow:
+                0 15px 40px rgba(0, 102, 255, 0.7),
+                0 0 30px rgba(0, 170, 255, 0.5),
+                0 0 50px rgba(139, 92, 246, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            border-color: rgba(0, 170, 255, 0.6);
+            text-shadow: 0 0 15px rgba(0, 170, 255, 0.8);
+        }
+
+        .update-button:hover::before {
+            left: 100%;
+        }
+
+        .update-button:active {
+            transform: translateY(-2px);
+            box-shadow:
+                0 8px 25px rgba(0, 102, 255, 0.6),
+                0 0 25px rgba(0, 170, 255, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        /* Movie-style text overlay */
+        .movie-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(2px);
+        }
+
+        .movie-text {
+            font-size: 48px;
+            font-weight: 900;
+            color: white;
+            text-align: center;
+            text-shadow:
+                2px 2px 4px rgba(0, 0, 0, 0.8),
+                0 0 20px rgba(255, 255, 255, 0.5),
+                0 0 40px rgba(0, 255, 255, 0.3);
+            opacity: 0;
+            transform: translateY(50px) scale(0.8);
+            transition: all 1.2s ease;
+            max-width: 90%;
+            line-height: 1.1;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-family: 'Courier New', monospace;
+        }
+
+        .typing-cursor {
+            display: inline-block;
+            background-color: white;
+            width: 3px;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+
+            0%,
+            50% {
+                opacity: 1;
+            }
+
+            51%,
+            100% {
+                opacity: 0;
+            }
+        }
+
+        .movie-text.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .movie-text.fade-out {
+            opacity: 0;
+            transform: translateY(-30px) scale(1.1);
+            transition: all 0.8s ease;
+        }
+
+        /* Final button overlay */
+        .final-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+        }
+
+        .final-button {
+            background: linear-gradient(135deg, #0066ff 0%, #00aaff 60%, #8b5cf6 80%, #a855f7 100%);
+            border: 2px solid rgba(0, 170, 255, 0.6);
+            border-radius: 15px;
+            padding: 25px 50px;
+            font-size: 24px;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow:
+                0 15px 40px rgba(0, 102, 255, 0.6),
+                0 0 30px rgba(0, 170, 255, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 15px rgba(0, 170, 255, 0.8);
+            opacity: 0;
+            transform: translateY(50px) scale(0.9);
+            animation: buttonAppear 1.5s ease 0.5s forwards;
+        }
+
+        @keyframes buttonAppear {
+            0% {
+                opacity: 0;
+                transform: translateY(50px) scale(0.9);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .final-button:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow:
+                0 20px 50px rgba(0, 102, 255, 0.8),
+                0 0 40px rgba(0, 170, 255, 0.7);
+        }
+
+        /* Expanded congratulations display */
+        .congratulations-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 3000;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        .congratulations-content {
+            background: linear-gradient(135deg, rgba(0, 20, 40, 0.95), rgba(0, 10, 30, 0.98));
+            border-radius: 20px;
+            padding: 60px 40px;
+            max-width: 700px;
+            width: 90%;
+            text-align: center;
+            box-shadow:
+                0 0 50px rgba(0, 255, 255, 0.4),
+                inset 0 0 50px rgba(0, 100, 200, 0.1);
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            opacity: 0;
+            transform: scale(0.8) translateY(50px);
+            animation: expandIn 1s ease 0.2s forwards;
+        }
+
+        @keyframes expandIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.8) translateY(50px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .superpower-section {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 40px;
+            justify-content: center;
+            padding: 20px;
+            border-radius: 15px;
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.05), rgba(255, 215, 0, 0.05));
+            border: 1px solid rgba(0, 255, 255, 0.2);
+        }
+
+        .superpower-logo {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            filter:
+                drop-shadow(0 0 20px rgba(0, 255, 255, 0.6)) drop-shadow(0 0 40px rgba(255, 215, 0, 0.3)) brightness(1.1) contrast(1.2);
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 255, 255, 0.1), transparent);
+            padding: 10px;
+        }
+
+        .superpower-text {
+            flex: 1;
+            text-align: left;
+        }
+
+        .congratulations-title {
+            font-size: 32px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #00ffff 0%, #ffd700 50%, #00ccff 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+            line-height: 1.2;
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3));
+        }
+
+        .congratulations-subtitle {
+            font-size: 20px;
+            color: #e0e0e0;
+            font-weight: 500;
+            line-height: 1.3;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .choice-buttons {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .choice-button {
+            background: linear-gradient(135deg, #0066ff 0%, #00ccff 50%, #0099ff 100%);
+            border: 2px solid rgba(0, 255, 255, 0.4);
+            border-radius: 12px;
+            padding: 18px 35px;
+            font-size: 20px;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow:
+                0 8px 25px rgba(0, 102, 255, 0.4),
+                0 0 15px rgba(0, 204, 255, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+            min-width: 120px;
+        }
+
+        .choice-button.test {
+            background: linear-gradient(135deg, #0066ff 0%, #00aaff 60%, #8b5cf6 80%, #a855f7 100%);
+            border: 2px solid rgba(0, 170, 255, 0.4);
+            box-shadow:
+                0 8px 25px rgba(0, 102, 255, 0.4),
+                0 0 15px rgba(0, 170, 255, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            padding: 20px 40px;
+            font-size: 22px;
+            min-width: 250px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .choice-button.test::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 170, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .choice-button:hover {
+            transform: translateY(-3px) scale(1.05);
+        }
+
+        .choice-button.test:hover {
+            box-shadow:
+                0 12px 35px rgba(0, 102, 255, 0.6),
+                0 0 25px rgba(0, 170, 255, 0.5),
+                0 0 40px rgba(139, 92, 246, 0.4);
+            transform: translateY(-5px) scale(1.05);
+            border-color: rgba(0, 170, 255, 0.6);
+        }
+
+        .choice-button.test:hover::before {
+            left: 100%;
+        }
+
+        /* Video styling */
+        #heroVideo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .update-button {
+                padding: 16px 40px;
+                font-size: 20px;
+            }
+
+            .movie-text {
+                font-size: 36px;
+            }
+
+            .final-button {
+                padding: 20px 40px;
+                font-size: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .update-button {
+                padding: 14px 30px;
+                font-size: 18px;
+                letter-spacing: 1px;
+            }
+
+            .movie-text {
+                font-size: 28px;
+            }
+
+            .final-button {
+                padding: 18px 35px;
+                font-size: 18px;
+            }
+
+            .superpower-section {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+
+            .superpower-text {
+                text-align: center;
+            }
+
+            .congratulations-title {
+                font-size: 24px;
+            }
+
+            .congratulations-subtitle {
+                font-size: 16px;
+            }
+
+            .superpower-logo {
+                width: 80px;
+                height: 80px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <button class="update-button" onclick="startUpdate()">
+        Update Inner Intelligence using AI
+    </button>
+
+
+
+    <!-- Hidden video element -->
+    <video id="heroVideo" style="display: none;" muted>
+        <source src="assets/videos/herovideo.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <!-- Movie-style text overlay -->
+    <div class="movie-overlay" id="movieOverlay">
+        <div class="movie-text" id="movieText"></div>
+    </div>
+
+    <!-- Final button overlay -->
+    <div class="final-overlay" id="finalOverlay">
+        <button class="final-button" onclick="exploreFeatures()">
+            Learn about new update
+        </button>
+    </div>
+
+    <!-- Congratulations expanded display -->
+    <div class="congratulations-overlay" id="congratulationsOverlay">
+        <div class="congratulations-content">
+            <div class="superpower-section">
+                <img src="assets/images/1stSuperpower.png" alt="1st Superpower" class="superpower-logo">
+                <div class="superpower-text">
+                    <div class="congratulations-title">
+                        First Superpower: Ability to Answer Any Question. Litrally any questions.
+                    </div>
+                </div>
+            </div>
+            <div class="choice-buttons">
+                <button class="choice-button test" onclick="testSuperpowers()">Test your superpowers</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function startUpdate() {
+            const video = document.getElementById('heroVideo');
+            const movieOverlay = document.getElementById('movieOverlay');
+            const movieText = document.getElementById('movieText');
+            const finalOverlay = document.getElementById('finalOverlay');
+            const button = document.querySelector('.update-button');
+
+            // Hide the button
+            button.style.display = 'none';
+
+            // Show and play video
+            video.style.display = 'block';
+            video.play();
+
+            // Show movie overlay
+            movieOverlay.style.display = 'flex';
+
+            // Movie-style text sequence
+            const messages = [
+                "Found few inactive superpower",
+                "Activating all powers",
+                "All superpowers are fully activated",
+                "Test Now."
+            ];
+
+            let currentMessage = 0;
+
+            function typeText(text, element, callback) {
+                element.innerHTML = '';
+                element.classList.add('show');
+                let i = 0;
+
+                function typeChar() {
+                    if (i < text.length) {
+                        element.innerHTML += text.charAt(i);
+                        i++;
+                        setTimeout(typeChar, 80); // Typing speed
+                    } else {
+                        // Add blinking cursor briefly
+                        element.innerHTML += '<span class="typing-cursor">|</span>';
+                        setTimeout(() => {
+                            // Remove cursor and proceed
+                            element.innerHTML = text;
+                            if (callback) callback();
+                        }, 500);
+                    }
+                }
+                typeChar();
+            }
+
+            function showMovieText() {
+                if (currentMessage < messages.length) {
+                    // Type current message
+                    typeText(messages[currentMessage], movieText, () => {
+                        setTimeout(() => {
+                            // Fade out current message
+                            movieText.classList.remove('show');
+                            movieText.classList.add('fade-out');
+
+                            setTimeout(() => {
+                                movieText.classList.remove('fade-out');
+                                currentMessage++;
+
+                                if (currentMessage < messages.length) {
+                                    showMovieText();
+                                } else {
+                                    // Hide movie overlay and show final button
+                                    setTimeout(() => {
+                                        movieOverlay.style.display = 'none';
+                                        finalOverlay.style.display = 'flex';
+                                    }, 1000);
+                                }
+                            }, 800);
+                        }, 1500); // Show typed message for 1.5 seconds
+                    });
+                }
+            }
+
+            // Start the movie text sequence after a brief delay
+            setTimeout(showMovieText, 1000);
+        }
+
+        function exploreFeatures() {
+            const finalOverlay = document.getElementById('finalOverlay');
+            const congratulationsOverlay = document.getElementById('congratulationsOverlay');
+
+            // Hide the final button overlay
+            finalOverlay.style.display = 'none';
+
+            // Show the congratulations overlay
+            congratulationsOverlay.style.display = 'flex';
+        }
+
+        function testSuperpowers() {
+            alert('Amazing! Your superpower is now active. You can answer any question that comes your way!');
+            // You can redirect to a testing interface or tutorial
+            // window.location.href = 'test-interface.html';
+        }
+
+
+
+        // Add keyboard support
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Enter' || e.code === 'Space') {
+                e.preventDefault();
+                startUpdate();
+            }
+        });
+    </script>
+</body>
+
+</html>
