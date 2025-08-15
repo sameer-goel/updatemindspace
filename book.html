@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Book - Update Mind Space</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            height: 100vh;
+            background: linear-gradient(135deg, #000428 0%, #004e92 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            color: white;
+        }
+
+        .book-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            padding: 40px;
+        }
+
+        .book-cover {
+            max-width: 400px;
+            max-height: 600px;
+            width: 90%;
+            height: auto;
+            border-radius: 15px;
+            box-shadow:
+                0 0 50px rgba(0, 170, 255, 0.4),
+                0 0 100px rgba(0, 170, 255, 0.2),
+                0 20px 40px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+
+        .book-cover:hover {
+            transform: scale(1.05) translateY(-10px);
+            box-shadow:
+                0 0 60px rgba(0, 170, 255, 0.6),
+                0 0 120px rgba(0, 170, 255, 0.3),
+                0 30px 60px rgba(0, 0, 0, 0.6);
+        }
+
+        .book-cover.opening {
+            animation: bookOpening 2s ease-in-out forwards;
+            cursor: default;
+            pointer-events: none;
+        }
+
+        @keyframes bookOpening {
+            0% {
+                transform: scale(1) rotateY(0deg) translateZ(0);
+            }
+
+            25% {
+                transform: scale(1.1) rotateY(-5deg) translateZ(20px);
+            }
+
+            50% {
+                transform: scale(1.2) rotateY(-15deg) translateZ(40px);
+                box-shadow:
+                    0 0 80px rgba(0, 170, 255, 0.8),
+                    0 0 150px rgba(0, 170, 255, 0.4),
+                    0 40px 80px rgba(0, 0, 0, 0.7);
+            }
+
+            75% {
+                transform: scale(1.3) rotateY(-45deg) translateZ(60px);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: scale(1.5) rotateY(-90deg) translateZ(80px);
+                opacity: 0;
+            }
+        }
+
+        .opening-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(0, 170, 255, 0.1) 0%, rgba(0, 0, 0, 0.8) 100%);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+            z-index: 10;
+        }
+
+        .opening-overlay.active {
+            opacity: 1;
+        }
+
+        .opening-text {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 32px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #00ffff 0%, #ffd700 50%, #00ccff 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+            opacity: 0;
+            z-index: 20;
+            animation: textFadeIn 1s ease 1s forwards;
+        }
+
+        @keyframes textFadeIn {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.8);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        .book-title {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #00ffff 0%, #ffd700 50%, #00ccff 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+            text-align: center;
+            opacity: 1;
+        }
+
+
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .book-cover {
+                max-width: 300px;
+                max-height: 450px;
+            }
+
+            .book-title {
+                font-size: 24px;
+                bottom: 30px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .book-container {
+                padding: 20px;
+            }
+
+            .book-cover {
+                max-width: 250px;
+                max-height: 375px;
+            }
+
+            .book-title {
+                font-size: 20px;
+                bottom: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="book-container">
+        <img src="assets/images/CultivateInerIntelleigenceUsingAI-cover.png" alt="Cultivate Inner Intelligence Using AI"
+            class="book-cover" onclick="openBook()">
+    </div>
+
+    <div class="book-title">Cultivate Inner Intelligence using Artifical Intelligence</div>
+
+    <!-- Opening Animation Overlay -->
+    <div class="opening-overlay" id="openingOverlay">
+        <div class="opening-text" id="openingText">Opening your book...</div>
+    </div>
+
+    <script>
+        function openBook() {
+            const bookCover = document.querySelector('.book-cover');
+            const overlay = document.getElementById('openingOverlay');
+            const openingText = document.getElementById('openingText');
+
+            // Start the opening animation
+            bookCover.classList.add('opening');
+            overlay.classList.add('active');
+
+            // Navigate to reader after animation completes
+            setTimeout(() => {
+                window.location.href = 'reader.html';
+            }, 2500);
+        }
+
+        // Add keyboard support
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Enter' || e.code === 'Space') {
+                e.preventDefault();
+                openBook();
+            }
+        });
+    </script>
+</body>
+
+</html>

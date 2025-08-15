@@ -247,6 +247,7 @@
 
         .superpower-section {
             display: flex;
+            flex-direction: column;
             align-items: center;
             gap: 30px;
             margin-bottom: 40px;
@@ -255,6 +256,7 @@
             border-radius: 15px;
             background: linear-gradient(135deg, rgba(0, 255, 255, 0.05), rgba(255, 215, 0, 0.05));
             border: 1px solid rgba(0, 255, 255, 0.2);
+            text-align: center;
         }
 
         .superpower-logo {
@@ -269,8 +271,7 @@
         }
 
         .superpower-text {
-            flex: 1;
-            text-align: left;
+            text-align: center;
         }
 
         .congratulations-title {
@@ -375,6 +376,218 @@
 
 
 
+        /* Pen and Paper Game Screen */
+        .game-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 4000;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(15px);
+        }
+
+        .game-content {
+            background: linear-gradient(135deg, rgba(0, 30, 60, 0.95), rgba(0, 15, 40, 0.98));
+            border-radius: 20px;
+            padding: 50px 40px;
+            max-width: 600px;
+            width: 90%;
+            text-align: center;
+            box-shadow:
+                0 0 50px rgba(0, 170, 255, 0.4),
+                inset 0 0 50px rgba(0, 100, 200, 0.1);
+            border: 2px solid rgba(0, 170, 255, 0.3);
+            opacity: 0;
+            transform: scale(0.9) translateY(30px);
+            animation: gameAppear 1s ease 0.2s forwards;
+        }
+
+        @keyframes gameAppear {
+            0% {
+                opacity: 0;
+                transform: scale(0.9) translateY(30px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .game-header {
+            margin-bottom: 40px;
+        }
+
+        .game-title {
+            font-size: 36px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #00aaff 0%, #8b5cf6 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            text-shadow: 0 0 20px rgba(0, 170, 255, 0.5);
+        }
+
+        .game-subtitle {
+            font-size: 20px;
+            color: #e0e0e0;
+            font-weight: 500;
+        }
+
+        .game-instructions {
+            margin: 40px 0;
+            text-align: left;
+        }
+
+        .instruction-step {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(0, 170, 255, 0.1);
+            border-radius: 10px;
+            border-left: 4px solid #00aaff;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #00aaff 0%, #8b5cf6 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            margin-right: 20px;
+            font-size: 18px;
+        }
+
+        .step-text {
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .ready-button {
+            background: linear-gradient(135deg, #0066ff 0%, #00aaff 60%, #8b5cf6 80%, #a855f7 100%);
+            border: 2px solid rgba(0, 170, 255, 0.4);
+            border-radius: 15px;
+            padding: 20px 40px;
+            font-size: 20px;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow:
+                0 10px 30px rgba(0, 102, 255, 0.4),
+                0 0 20px rgba(0, 170, 255, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ready-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 170, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .ready-button:hover {
+            transform: translateY(-3px);
+            box-shadow:
+                0 15px 40px rgba(0, 102, 255, 0.6),
+                0 0 30px rgba(0, 170, 255, 0.5);
+            border-color: rgba(0, 170, 255, 0.6);
+        }
+
+        .ready-button:hover::before {
+            left: 100%;
+        }
+
+        /* Installation status and progress bar */
+        .installation-status {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(0, 170, 255, 0.1);
+            border-radius: 15px;
+            border: 1px solid rgba(0, 170, 255, 0.3);
+        }
+
+        .status-text {
+            font-size: 24px;
+            font-weight: 600;
+            color: #4ade80;
+            margin-bottom: 15px;
+            text-shadow: 0 0 15px rgba(74, 222, 128, 0.5);
+        }
+
+        .progress-container-modal {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .progress-bar-modal {
+            flex: 1;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill-modal {
+            height: 100%;
+            background: linear-gradient(90deg, #4ade80, #22c55e, #16a34a);
+            width: 0%;
+            border-radius: 6px;
+            transition: width 2s ease;
+            position: relative;
+        }
+
+        .progress-fill-modal::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%);
+            }
+
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        .progress-percentage {
+            font-size: 18px;
+            font-weight: 600;
+            color: #4ade80;
+            min-width: 50px;
+            text-align: right;
+        }
+
         /* Responsive design */
         @media (max-width: 768px) {
             .update-button {
@@ -430,6 +643,23 @@
                 width: 80px;
                 height: 80px;
             }
+
+            .game-title {
+                font-size: 28px;
+            }
+
+            .game-subtitle {
+                font-size: 18px;
+            }
+
+            .step-text {
+                font-size: 16px;
+            }
+
+            .ready-button {
+                padding: 16px 32px;
+                font-size: 18px;
+            }
         }
     </style>
 </head>
@@ -462,16 +692,62 @@
     <!-- Congratulations expanded display -->
     <div class="congratulations-overlay" id="congratulationsOverlay">
         <div class="congratulations-content">
+            <div class="installation-status">
+                <div class="status-text">Successfully Installed</div>
+                <div class="progress-container-modal">
+                    <div class="progress-bar-modal">
+                        <div class="progress-fill-modal" id="progressFillModal"></div>
+                    </div>
+                    <div class="progress-percentage">100%</div>
+                </div>
+            </div>
+
             <div class="superpower-section">
                 <img src="assets/images/1stSuperpower.png" alt="1st Superpower" class="superpower-logo">
                 <div class="superpower-text">
                     <div class="congratulations-title">
-                        First Superpower: Ability to Answer Any Question. Litrally any questions.
+                        First Superpower<br>
+                        Ability to Answer Any Question?
                     </div>
                 </div>
             </div>
             <div class="choice-buttons">
                 <button class="choice-button test" onclick="testSuperpowers()">Test your superpowers</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pen and Paper Game Screen -->
+    <div class="game-overlay" id="gameOverlay">
+        <div class="game-content">
+            <div class="game-header">
+                <h2 class="game-title">Test Your Superpower</h2>
+                <p class="game-subtitle">Pick a Pen and Paper with You</p>
+            </div>
+
+            <div class="game-instructions">
+                <div class="instruction-step">
+                    <div class="step-number">1</div>
+                    <div class="step-text">Get a pen and paper ready</div>
+                </div>
+                <div class="instruction-step">
+                    <div class="step-number">2</div>
+                    <div class="step-text">There are no right or wrong answers</div>
+                </div>
+                <div class="instruction-step">
+                    <div class="step-number">3</div>
+                    <div class="step-text">Write it down whatever comes to mind</div>
+                </div>
+                <div class="instruction-step">
+                    <div class="step-number">4</div>
+                    <div class="step-text">Go with the Flow</div>
+                </div>
+            </div>
+
+            <div class="game-actions">
+                <button class="ready-button" onclick="startGame()">
+                    I'm Ready to Test My Superpower
+                </button>
             </div>
         </div>
     </div>
@@ -482,6 +758,7 @@
             const movieOverlay = document.getElementById('movieOverlay');
             const movieText = document.getElementById('movieText');
             const finalOverlay = document.getElementById('finalOverlay');
+            const congratulationsOverlay = document.getElementById('congratulationsOverlay');
             const button = document.querySelector('.update-button');
 
             // Hide the button
@@ -496,10 +773,10 @@
 
             // Movie-style text sequence
             const messages = [
-                "Found few inactive superpower",
-                "Activating all powers",
-                "All superpowers are fully activated",
-                "Test Now."
+                "Found Inactive superpowers",
+                "Activating all Inactive processes",
+                "Loading powers to active mind",
+                "Test You Superpower Now."
             ];
 
             let currentMessage = 0;
@@ -543,10 +820,15 @@
                                 if (currentMessage < messages.length) {
                                     showMovieText();
                                 } else {
-                                    // Hide movie overlay and show final button
+                                    // Skip final button and go directly to congratulations
                                     setTimeout(() => {
                                         movieOverlay.style.display = 'none';
-                                        finalOverlay.style.display = 'flex';
+                                        congratulationsOverlay.style.display = 'flex';
+
+                                        // Animate progress bar to 100%
+                                        setTimeout(() => {
+                                            document.getElementById('progressFillModal').style.width = '100%';
+                                        }, 500);
                                     }, 1000);
                                 }
                             }, 800);
@@ -571,12 +853,21 @@
         }
 
         function testSuperpowers() {
-            alert('Amazing! Your superpower is now active. You can answer any question that comes your way!');
-            // You can redirect to a testing interface or tutorial
-            // window.location.href = 'test-interface.html';
+            const congratulationsOverlay = document.getElementById('congratulationsOverlay');
+            const gameOverlay = document.getElementById('gameOverlay');
+
+            // Hide congratulations screen
+            congratulationsOverlay.style.display = 'none';
+
+            // Show pen and paper game
+            gameOverlay.style.display = 'flex';
         }
 
 
+
+        function startGame() {
+            window.location.href = 'questions.html';
+        }
 
         // Add keyboard support
         document.addEventListener('keydown', (e) => {

@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Your Superpower - Question 1</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            height: 100vh;
+            background: linear-gradient(135deg, #000428 0%, #004e92 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            color: white;
+        }
+
+        .question-container {
+            background: linear-gradient(135deg, rgba(0, 30, 60, 0.95), rgba(0, 15, 40, 0.98));
+            border-radius: 20px;
+            padding: 60px 50px;
+            max-width: 800px;
+            width: 90%;
+            text-align: center;
+            box-shadow:
+                0 0 50px rgba(0, 170, 255, 0.4),
+                inset 0 0 50px rgba(0, 100, 200, 0.1);
+            border: 2px solid rgba(0, 170, 255, 0.3);
+            opacity: 0;
+            transform: scale(0.9) translateY(30px);
+            animation: questionAppear 1s ease 0.2s forwards;
+        }
+
+        .question-slide {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.5s ease;
+        }
+
+        .question-slide.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .question-slide.fade-out {
+            opacity: 0;
+            transform: translateX(-50px);
+        }
+
+        @keyframes questionAppear {
+            0% {
+                opacity: 0;
+                transform: scale(0.9) translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .question-header {
+            margin-bottom: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .progress-indicator {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .progress-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(0, 170, 255, 0.3);
+            border: 2px solid rgba(0, 170, 255, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .progress-dot.active {
+            background: linear-gradient(135deg, #00aaff 0%, #8b5cf6 100%);
+            border-color: #00aaff;
+            box-shadow: 0 0 15px rgba(0, 170, 255, 0.6);
+            transform: scale(1.2);
+        }
+
+        .progress-dot.completed {
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            border-color: #4ade80;
+            box-shadow: 0 0 15px rgba(74, 222, 128, 0.6);
+        }
+
+        .progress-line {
+            width: 30px;
+            height: 2px;
+            background: rgba(0, 170, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .progress-line.completed {
+            background: linear-gradient(90deg, #4ade80, #22c55e);
+            box-shadow: 0 0 10px rgba(74, 222, 128, 0.4);
+        }
+
+        .superpower-logo {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            filter:
+                drop-shadow(0 0 20px rgba(0, 255, 255, 0.6)) 
+                drop-shadow(0 0 40px rgba(255, 215, 0, 0.3)) 
+                brightness(1.1) 
+                contrast(1.2);
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 255, 255, 0.1), transparent);
+            padding: 10px;
+        }
+
+        .question-text {
+            font-size: 28px;
+            font-weight: 600;
+            color: #ffffff;
+            line-height: 1.4;
+            margin-bottom: 30px;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        }
+
+        .question-emphasis {
+            font-size: 32px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #00ffff 0%, #ffd700 50%, #00ccff 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 20px 0;
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3));
+        }
+
+        .answer-section {
+            margin: 40px 0;
+            padding: 30px;
+            background: rgba(0, 170, 255, 0.1);
+            border-radius: 15px;
+            border: 1px solid rgba(0, 170, 255, 0.3);
+        }
+
+        .answer-label {
+            font-size: 24px;
+            font-weight: 600;
+            color: #00aaff;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .answer-line {
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #00aaff 0%, #8b5cf6 100%);
+            border-radius: 2px;
+            margin: 15px 0;
+            box-shadow: 0 0 10px rgba(0, 170, 255, 0.5);
+        }
+
+        .instruction-text {
+            font-size: 18px;
+            color: #e0e0e0;
+            font-style: italic;
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border-left: 4px solid #00aaff;
+        }
+
+        .continue-button {
+            background: linear-gradient(135deg, #0066ff 0%, #00aaff 60%, #8b5cf6 80%, #a855f7 100%);
+            border: 2px solid rgba(0, 170, 255, 0.4);
+            border-radius: 15px;
+            padding: 20px 40px;
+            font-size: 20px;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow:
+                0 10px 30px rgba(0, 102, 255, 0.4),
+                0 0 20px rgba(0, 170, 255, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .continue-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 170, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .continue-button:hover {
+            transform: translateY(-3px);
+            box-shadow:
+                0 15px 40px rgba(0, 102, 255, 0.6),
+                0 0 30px rgba(0, 170, 255, 0.5);
+            border-color: rgba(0, 170, 255, 0.6);
+        }
+
+        .continue-button:hover::before {
+            left: 100%;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .question-container {
+                padding: 40px 30px;
+            }
+
+            .question-text {
+                font-size: 24px;
+            }
+
+            .question-emphasis {
+                font-size: 28px;
+            }
+
+            .answer-label {
+                font-size: 20px;
+            }
+
+            .continue-button {
+                padding: 16px 32px;
+                font-size: 18px;
+            }
+        }
+
+        /* Completion Modal */
+        .completion-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 5000;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(15px);
+        }
+
+        .completion-content {
+            background: linear-gradient(135deg, rgba(0, 30, 60, 0.95), rgba(0, 15, 40, 0.98));
+            border-radius: 20px;
+            padding: 60px 50px;
+            max-width: 700px;
+            width: 90%;
+            text-align: center;
+            box-shadow:
+                0 0 50px rgba(0, 170, 255, 0.4),
+                inset 0 0 50px rgba(0, 100, 200, 0.1);
+            border: 2px solid rgba(0, 170, 255, 0.3);
+            opacity: 0;
+            transform: scale(0.8) translateY(50px);
+            animation: completionAppear 1s ease 0.2s forwards;
+        }
+
+        @keyframes completionAppear {
+            0% {
+                opacity: 0;
+                transform: scale(0.8) translateY(50px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .completion-logo {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            filter:
+                drop-shadow(0 0 20px rgba(0, 255, 255, 0.6)) 
+                drop-shadow(0 0 40px rgba(255, 215, 0, 0.3)) 
+                brightness(1.1) 
+                contrast(1.2);
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 255, 255, 0.1), transparent);
+            padding: 10px;
+            margin-bottom: 30px;
+        }
+
+        .completion-title {
+            font-size: 32px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #00ffff 0%, #ffd700 50%, #00ccff 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+            line-height: 1.2;
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3));
+        }
+
+        .completion-message {
+            font-size: 20px;
+            color: #e0e0e0;
+            font-weight: 500;
+            line-height: 1.4;
+            margin-bottom: 40px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .learn-more-button {
+            background: linear-gradient(135deg, #0066ff 0%, #00aaff 60%, #8b5cf6 80%, #a855f7 100%);
+            border: 2px solid rgba(0, 170, 255, 0.4);
+            border-radius: 15px;
+            padding: 20px 40px;
+            font-size: 22px;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow:
+                0 10px 30px rgba(0, 102, 255, 0.4),
+                0 0 20px rgba(0, 170, 255, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            min-width: 200px;
+        }
+
+        .learn-more-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 170, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .learn-more-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow:
+                0 15px 40px rgba(0, 102, 255, 0.6),
+                0 0 30px rgba(0, 170, 255, 0.5);
+            border-color: rgba(0, 170, 255, 0.6);
+        }
+
+        .learn-more-button:hover::before {
+            left: 100%;
+        }
+
+        @media (max-width: 480px) {
+            .question-container {
+                padding: 30px 20px;
+            }
+
+            .question-text {
+                font-size: 20px;
+            }
+
+            .question-emphasis {
+                font-size: 24px;
+            }
+
+            .instruction-text {
+                font-size: 16px;
+            }
+
+            .superpower-logo {
+                width: 60px;
+                height: 60px;
+            }
+
+            .progress-dot {
+                width: 10px;
+                height: 10px;
+            }
+
+            .progress-line {
+                width: 20px;
+            }
+
+            .completion-content {
+                padding: 40px 30px;
+            }
+
+            .completion-title {
+                font-size: 26px;
+            }
+
+            .completion-message {
+                font-size: 18px;
+            }
+
+            .completion-logo {
+                width: 80px;
+                height: 80px;
+            }
+
+            .learn-more-button {
+                padding: 16px 32px;
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="question-container" id="questionContainer">
+        <!-- Progress Indicator -->
+        <div class="progress-indicator" id="progressIndicator">
+            <div class="progress-dot active" id="dot1"></div>
+            <div class="progress-line" id="line1"></div>
+            <div class="progress-dot" id="dot2"></div>
+            <div class="progress-line" id="line2"></div>
+            <div class="progress-dot" id="dot3"></div>
+            <div class="progress-line" id="line3"></div>
+            <div class="progress-dot" id="dot4"></div>
+            <div class="progress-line" id="line4"></div>
+            <div class="progress-dot" id="dot5"></div>
+            <div class="progress-line" id="line5"></div>
+            <div class="progress-dot" id="dot6"></div>
+        </div>
+
+        <!-- Question 1 -->
+        <div class="question-slide" id="question1">
+            <div class="question-header">
+                <img src="assets/images/1stSuperpower.png" alt="1st Superpower" class="superpower-logo">
+            </div>
+
+            <div class="question-text">
+                If you could ask the most powerful AI of the world exactly 
+                <span class="question-emphasis">ONE question</span> 
+                that would change your life forever, what would that question be?
+            </div>
+
+            <div class="question-text">
+                Write that <span class="question-emphasis">ONE Question.</span>
+            </div>
+
+            <div class="answer-section">
+                <div class="answer-label">A.</div>
+                <div class="answer-line"></div>
+                <div class="answer-line"></div>
+                <div class="answer-line"></div>
+            </div>
+
+            <div class="instruction-text">
+                Take your time. Write whatever comes to mind. Trust the process.
+            </div>
+
+            <button class="continue-button" onclick="nextQuestion()">
+                I've Written My Question. Next.
+            </button>
+        </div>
+
+        <!-- Question 2 -->
+        <div class="question-slide" id="question2" style="display: none;">
+            <div class="question-header">
+                <img src="assets/images/1stSuperpower.png" alt="1st Superpower" class="superpower-logo">
+            </div>
+
+            <div class="question-text">
+                If you know someone who is able to answer anything what's bothering you.
+            </div>
+
+            <div class="question-text">
+                <span class="question-emphasis">What is bothering me?</span>
+            </div>
+
+            <div class="question-text">
+                Write <span class="question-emphasis">1 thing.</span>
+            </div>
+
+            <div class="answer-section">
+                <div class="answer-label">A.</div>
+                <div class="answer-line"></div>
+                <div class="answer-line"></div>
+                <div class="answer-line"></div>
+            </div>
+
+            <div class="instruction-text">
+                Be honest with yourself. What's really on your mind?
+            </div>
+
+            <button class="continue-button" onclick="nextQuestion()">
+                I've Written My Answer. Next.
+            </button>
+        </div>
+
+        <!-- Question 3 -->
+        <div class="question-slide" id="question3" style="display: none;">
+            <div class="question-header">
+                <img src="assets/images/1stSuperpower.png" alt="1st Superpower" class="superpower-logo">
+            </div>
+
+            <div class="question-text">
+                How is to live a life with happiness as per you.
+            </div>
+
+            <div class="question-text">
+                Write <span class="question-emphasis">1 way.</span>
+            </div>
+
+            <div class="answer-section">
+                <div class="answer-label">A.</div>
+                <div class="answer-line"></div>
+                <div class="answer-line"></div>
+                <div class="answer-line"></div>
+            </div>
+
+            <div class="instruction-text">
+                What does true happiness mean to you personally?
+            </div>
+
+            <button class="continue-button" onclick="nextQuestion()">
+                I've Written My Way. Next.
+            </button>
+        </div>
+
+        <!-- Question 4 -->
+        <div class="question-slide" id="question4" style="display: none;">
+            <div class="question-header">
+                <img src="assets/images/1stSuperpower.png" alt="1st Superpower" class="superpower-logo">
+            </div>
+
+            <div class="question-text">
+                How humans can evolve beyond their limitations.
+            </div>
+
+            <div class="question-text">
+                Write <span class="question-emphasis">3 ways.</span>
+            </div>
+
+            <div class="answer-section">
+                <div class="answer-label">A.</div>
+                <div class="answer-line"></div>
+                <div class="answer-line"></div>
+                <div class="answer-line"></div>
+            </div>
+
+            <div class="instruction-text">
+                Think beyond current boundaries. What's possible for humanity?
+            </div>
+
+            <button class="continue-button" onclick="nextQuestion()">
+                I've Written 3 Ways. Next.
+            </button>
+        </div>
+
+        <!-- Question 5 -->
+        <div class="question-slide" id="question5" style="display: none;">
+            <div class="question-header">
+                <img src="assets/images/1stSuperpower.png" alt="1st Superpower" class="superpower-logo">
+            </div>
+
+            <div class="question-text">
+                What must I prompt my mind that I dissolve my thoughts to enter into 
+                <span class="question-emphasis">NOW.</span>
+            </div>
+
+            <div class="question-text">
+                Write <span class="question-emphasis">1 or more ways.</span>
+            </div>
+
+            <div class="answer-section">
+                <div class="answer-label">A.</div>
+                <div class="answer-line"></div>
+                <div class="answer-line"></div>
+                <div class="answer-line"></div>
+            </div>
+
+            <div class="instruction-text">
+                How do you quiet the mental chatter and become present?
+            </div>
+
+            <button class="continue-button" onclick="nextQuestion()">
+                I've Written My Ways. Next.
+            </button>
+        </div>
+
+        <!-- Question 6 -->
+        <div class="question-slide" id="question6" style="display: none;">
+            <div class="question-header">
+                <img src="assets/images/1stSuperpower.png" alt="1st Superpower" class="superpower-logo">
+            </div>
+
+            <div class="question-text">
+                What is that <span class="question-emphasis">one question</span> that 
+                <span class="question-emphasis">CLEARS all fog forever?</span>
+            </div>
+
+            <div class="question-text">
+                Write <span class="question-emphasis">1.</span>
+            </div>
+
+            <div class="answer-section">
+                <div class="answer-label">A.</div>
+                <div class="answer-line"></div>
+                <div class="answer-line"></div>
+                <div class="answer-line"></div>
+            </div>
+
+            <div class="instruction-text">
+                The ultimate question that brings absolute clarity.
+            </div>
+
+            <button class="continue-button" onclick="completeQuestions()">
+                I've Written The Ultimate Question
+            </button>
+        </div>
+    </div>
+
+    <!-- Completion Modal -->
+    <div class="completion-modal" id="completionModal">
+        <div class="completion-content">
+            <img src="assets/images/1stSuperpower.png" alt="1st Superpower" class="completion-logo">
+            
+            <div class="completion-title">
+                Congratulations!
+            </div>
+            
+            <div class="completion-message">
+                You have successfully activated all your superpowers. The answers you seek are now within your reach.
+            </div>
+            
+            <button class="learn-more-button" onclick="learnMore()">
+                Learn More
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let currentQuestion = 1;
+        const totalQuestions = 6;
+
+        // Show first question on load
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('question1').classList.add('active');
+        });
+
+        function updateProgress() {
+            // Mark current dot as completed and line as completed
+            if (currentQuestion > 1) {
+                document.getElementById(`dot${currentQuestion - 1}`).classList.add('completed');
+                document.getElementById(`dot${currentQuestion - 1}`).classList.remove('active');
+                if (currentQuestion > 1) {
+                    document.getElementById(`line${currentQuestion - 1}`).classList.add('completed');
+                }
+            }
+            
+            // Mark new current dot as active
+            if (currentQuestion <= totalQuestions) {
+                document.getElementById(`dot${currentQuestion}`).classList.add('active');
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < totalQuestions) {
+                // Update progress before moving to next question
+                updateProgress();
+                
+                // Hide current question
+                const current = document.getElementById(`question${currentQuestion}`);
+                current.classList.add('fade-out');
+                
+                setTimeout(() => {
+                    current.style.display = 'none';
+                    current.classList.remove('active', 'fade-out');
+                    
+                    // Show next question
+                    currentQuestion++;
+                    const next = document.getElementById(`question${currentQuestion}`);
+                    next.style.display = 'block';
+                    
+                    setTimeout(() => {
+                        next.classList.add('active');
+                    }, 50);
+                }, 500);
+            }
+        }
+
+        function completeQuestions() {
+            // Mark final question as completed
+            document.getElementById(`dot${currentQuestion}`).classList.add('completed');
+            document.getElementById(`dot${currentQuestion}`).classList.remove('active');
+            if (currentQuestion > 1) {
+                document.getElementById(`line${currentQuestion - 1}`).classList.add('completed');
+            }
+            
+            // Show completion modal
+            document.getElementById('completionModal').style.display = 'flex';
+        }
+
+        function learnMore() {
+            window.open('book.html', '_blank');
+        }
+
+        // Add keyboard support
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Enter') {
+                e.preventDefault();
+                if (currentQuestion < totalQuestions) {
+                    nextQuestion();
+                } else {
+                    completeQuestions();
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

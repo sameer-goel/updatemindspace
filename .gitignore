@@ -15,6 +15,9 @@ Thumbs.db
 
 # Development files
 park/
+meta/
+pagesmeta/
+PRODUCTION_CHECKLIST.md
 *.log
 node_modules/
 npm-debug.log*
