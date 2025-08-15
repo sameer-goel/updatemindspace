@@ -297,9 +297,10 @@
 
         .choice-buttons {
             display: flex;
-            gap: 30px;
+            gap: 20px;
             justify-content: center;
             margin-top: 40px;
+            flex-wrap: wrap;
         }
 
         .choice-button {
@@ -360,6 +361,44 @@
         }
 
         .choice-button.test:hover::before {
+            left: 100%;
+        }
+
+        .choice-button.read {
+            background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 60%, #c084fc 80%, #d8b4fe 100%);
+            border: 2px solid rgba(139, 92, 246, 0.4);
+            box-shadow:
+                0 8px 25px rgba(139, 92, 246, 0.4),
+                0 0 15px rgba(168, 85, 247, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            padding: 20px 40px;
+            font-size: 22px;
+            min-width: 200px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .choice-button.read::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .choice-button.read:hover {
+            box-shadow:
+                0 12px 35px rgba(139, 92, 246, 0.6),
+                0 0 25px rgba(168, 85, 247, 0.5),
+                0 0 40px rgba(192, 132, 252, 0.4);
+            transform: translateY(-5px) scale(1.05);
+            border-color: rgba(139, 92, 246, 0.6);
+        }
+
+        .choice-button.read:hover::before {
             left: 100%;
         }
 
@@ -644,6 +683,18 @@
                 height: 80px;
             }
 
+            .choice-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .choice-button.test,
+            .choice-button.read {
+                min-width: 100%;
+                font-size: 18px;
+                padding: 16px 32px;
+            }
+
             .game-title {
                 font-size: 28px;
             }
@@ -659,6 +710,43 @@
             .ready-button {
                 padding: 16px 32px;
                 font-size: 18px;
+            }
+        }
+
+        /* Footer Styles */
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 15px 20px;
+            text-align: center;
+            z-index: 1500;
+            border-top: 1px solid rgba(0, 170, 255, 0.2);
+        }
+
+        .footer-text {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 400;
+            letter-spacing: 0.5px;
+        }
+
+        .footer-highlight {
+            color: #00aaff;
+            font-weight: 600;
+            text-shadow: 0 0 10px rgba(0, 170, 255, 0.3);
+        }
+
+        @media (max-width: 480px) {
+            .footer {
+                padding: 12px 15px;
+            }
+
+            .footer-text {
+                font-size: 12px;
             }
         }
     </style>
@@ -713,6 +801,7 @@
             </div>
             <div class="choice-buttons">
                 <button class="choice-button test" onclick="testSuperpowers()">Test your superpowers</button>
+                <button class="choice-button read" onclick="readBook()">Read Book</button>
             </div>
         </div>
     </div>
@@ -749,6 +838,13 @@
                     I'm Ready to Test My Superpower
                 </button>
             </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="footer-text">
+            Project <span class="footer-highlight">Cultivating Inner Intelligence using AI</span> by <span class="footer-highlight">sameerai</span> and team.
         </div>
     </div>
 
@@ -867,6 +963,10 @@
 
         function startGame() {
             window.location.href = 'questions.html';
+        }
+
+        function readBook() {
+            window.open('book.html', '_blank');
         }
 
         // Add keyboard support
