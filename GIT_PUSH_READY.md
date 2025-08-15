@@ -8,7 +8,7 @@
 - `.gitignore` - ✅ NEW (excludes unnecessary files)
 
 ### **Essential Assets:**
-- `assets/images/landingpagebackground.png` - ✅ Landing background
+- `assets/images/herovideothumbnail.png` - ✅ Landing background
 - `assets/images/1stSuperpower.png` - ✅ Superpower logo  
 - `assets/videos/herovideo.mp4` - ✅ Hero video
 
@@ -33,7 +33,7 @@
 ├── README.md
 └── assets/
     ├── images/
-    │   ├── landingpagebackground.png
+    │   ├── herovideothumbnail.png
     │   └── 1stSuperpower.png
     └── videos/
         └── herovideo.mp4

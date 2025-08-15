@@ -12,7 +12,7 @@ The project is now properly organized and ready for deployment to GitHub.
 ├── assets/
 │   ├── images/
 │   │   ├── .gitkeep                    # Folder placeholder
-│   │   └── landingpagebackground.png   # ✅ MOVED HERE
+│   │   └── herovideothumbnail.png   # ✅ MOVED HERE
 │   └── videos/
 │       ├── .gitkeep                    # Folder placeholder
 │       └── herovideo.mp4               # ✅ MOVED HERE
@@ -36,7 +36,7 @@ The project is now properly organized and ready for deployment to GitHub.
 4. **Documentation added** (README.md, DEPLOYMENT.md)
 
 ### Asset Paths Updated
-- Background: `assets/images/landingpagebackground.png`
+- Background: `assets/images/herovideothumbnail.png`
 - Video: `assets/videos/herovideo.mp4`
 
 ### Git Commands to Push
