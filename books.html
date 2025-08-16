@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books Gallery - AI Enhanced Learning</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #000428 0%, #004e92 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* Animated Particle Background */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .header {
+            text-align: center;
+            padding: 60px 20px 40px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .main-title {
+            font-size: 48px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #00ffff 0%, #ffd700 50%, #00ccff 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+            margin-bottom: 20px;
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            from {
+                filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.3));
+            }
+
+            to {
+                filter: drop-shadow(0 0 40px rgba(0, 255, 255, 0.6));
+            }
+        }
+
+        .subtitle {
+            font-size: 20px;
+            color: #e0e0e0;
+            font-weight: 300;
+            margin-bottom: 10px;
+        }
+
+        .description {
+            font-size: 16px;
+            color: #b0b0b0;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .books-gallery {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            padding: 40px 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .book-card {
+            background: linear-gradient(135deg, rgba(0, 30, 60, 0.3), rgba(0, 15, 40, 0.4));
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow:
+                0 0 50px rgba(0, 170, 255, 0.4),
+                inset 0 0 50px rgba(0, 100, 200, 0.1);
+            border: 2px solid rgba(0, 170, 255, 0.3);
+            backdrop-filter: blur(10px);
+            transition:
+                transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                box-shadow 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                border-color 0.3s ease-out;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            will-change: transform;
+        }
+
+        .book-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 170, 255, 0.15), transparent);
+            transition: left 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            will-change: left;
+        }
+
+        .book-card:hover {
+            transform: translateY(-15px) scale(1.03);
+            box-shadow:
+                0 20px 60px rgba(0, 170, 255, 0.4),
+                0 0 80px rgba(0, 170, 255, 0.6),
+                inset 0 0 60px rgba(0, 100, 200, 0.15);
+            border-color: rgba(0, 170, 255, 0.7);
+        }
+
+        .book-card:hover::before {
+            left: 100%;
+        }
+
+        .book-cover {
+            width: 200px;
+            height: 280px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin: 0 auto 25px;
+            box-shadow:
+                0 0 30px rgba(0, 170, 255, 0.4),
+                0 10px 30px rgba(0, 0, 0, 0.3);
+            transition:
+                transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                box-shadow 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            will-change: transform;
+        }
+
+        .book-card:hover .book-cover {
+            transform: scale(1.08) translateY(-5px);
+            box-shadow:
+                0 0 50px rgba(0, 170, 255, 0.7),
+                0 20px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        .book-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+
+        .book-description {
+            font-size: 14px;
+            color: #b0b0b0;
+            line-height: 1.5;
+            margin-bottom: 25px;
+        }
+
+        .book-status {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 20px;
+        }
+
+        .status-available {
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            color: white;
+            box-shadow: 0 0 15px rgba(74, 222, 128, 0.4);
+        }
+
+        .status-coming-soon {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.4);
+        }
+
+        .read-button {
+            background: linear-gradient(135deg, #0066ff 0%, #00aaff 60%, #8b5cf6 80%, #a855f7 100%);
+            border: 2px solid rgba(0, 170, 255, 0.4);
+            border-radius: 15px;
+            padding: 12px 24px;
+            font-size: 14px;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            transition:
+                transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                box-shadow 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                border-color 0.2s ease-out;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-decoration: none;
+            display: inline-block;
+            will-change: transform;
+        }
+
+        .read-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 12px 35px rgba(0, 102, 255, 0.5);
+            border-color: rgba(0, 170, 255, 0.8);
+        }
+
+        .read-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .coming-soon-button {
+            background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+            border-color: rgba(107, 114, 128, 0.4);
+        }
+
+        .coming-soon-button:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(107, 114, 128, 0.4);
+            border-color: rgba(107, 114, 128, 0.6);
+        }
+
+
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 36px;
+            }
+
+            .subtitle {
+                font-size: 18px;
+            }
+
+            .books-gallery {
+                gap: 30px;
+                padding: 30px 15px;
+            }
+
+            .book-card {
+                padding: 25px 20px;
+            }
+
+            .book-cover {
+                width: 160px;
+                height: 224px;
+            }
+
+            .book-title {
+                font-size: 20px;
+            }
+
+            .header {
+                padding: 40px 15px 30px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-title {
+                font-size: 28px;
+            }
+
+            .book-cover {
+                width: 140px;
+                height: 196px;
+            }
+
+            .book-title {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="particle-canvas"></canvas>
+
+    <div class="header">
+        <h1 class="main-title">Books Gallery</h1>
+        <p class="subtitle">AI-Enhanced Learning Collection</p>
+        <p class="description">Discover transformative books that bridge human intelligence with artificial
+            intelligence, unlocking your hidden superpowers and potential.</p>
+    </div>
+
+    <div class="books-gallery">
+        <!-- Book 1: Cultivate Inner Intelligence Using AI -->
+        <div class="book-card" onclick="openBook('bookreader.html')">
+            <img src="assets/images/CultivateInerIntelleigenceUsingAI-cover.png"
+                alt="Cultivate Inner Intelligence Using AI" class="book-cover">
+            <h3 class="book-title">Cultivate Inner Intelligence Using Artificial Intelligence</h3>
+            <p class="book-description">
+                Discover how to enhance your cognitive abilities using AI as a thinking partner. Learn to upgrade your
+                mental operating system and unlock superpowers hidden in your blind spots.
+            </p>
+            <div class="book-status status-available">Available Now</div>
+            <a href="bookreader.html" class="read-button">Read Book</a>
+        </div>
+
+        <!-- Book 2: Your Superpowers -->
+        <div class="book-card">
+            <img src="assets/images/1stSuperpower.png" alt="Your Superpowers" class="book-cover">
+            <h3 class="book-title">Your Superpowers</h3>
+            <p class="book-description">
+                Uncover the extraordinary abilities that lie dormant within you. Through self-discovery exercises and
+                AI-guided insights, learn to identify and activate your unique superpowers.
+            </p>
+            <div class="book-status status-coming-soon">Coming Soon</div>
+            <button class="read-button coming-soon-button" disabled>Coming Soon</button>
+        </div>
+    </div>
+
+    <script>
+        function openBook(url) {
+            window.location.href = url;
+        }
+
+        // --- BACKGROUND PARTICLE ANIMATION ---
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 1;
+                this.speedX = Math.random() * 1 - 0.5;
+                this.speedY = Math.random() * 1 - 0.5;
+                this.color = `rgba(0, 170, 255, ${Math.random() * 0.5 + 0.2})`;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.size > 0.1) this.size -= 0.01;
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            }
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            for (let i = 0; i < 100; i++) {
+                particles.push(new Particle());
+            }
+        }
+        initParticles();
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+                if (particles[i].size <= 0.1) {
+                    particles.splice(i, 1);
+                    particles.push(new Particle());
+                    i--;
+                }
+            }
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Add hover sound effects (optional)
+        document.querySelectorAll('.book-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                // Optional: Add hover sound effect here
+            });
+        });
+    </script>
+</body>
+
+</html>

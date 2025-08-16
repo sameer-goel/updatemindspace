@@ -14,20 +14,35 @@
 
         body {
             height: 100vh;
-            background-image: url('assets/images/herovideothumbnail.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
             background-color: #000;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden;
+            position: relative;
+        }
+
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .video-background video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            pointer-events: none;
         }
 
         .update-button {
-            background: linear-gradient(135deg, #0066ff 0%, #00aaff 60%, #8b5cf6 80%, #a855f7 100%);
+            background: linear-gradient(45deg, #0066ff, #00aaff, #8b5cf6, #a855f7, #0066ff);
+            background-size: 400% 400%;
             border: 2px solid rgba(0, 170, 255, 0.4);
             border-radius: 15px;
             padding: 20px 50px;
@@ -45,7 +60,17 @@
             backdrop-filter: blur(10px);
             text-transform: uppercase;
             letter-spacing: 2px;
-            text-shadow: 0 0 10px rgba(0, 170, 255, 0.5);
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+            animation: holographic-blue 3s ease-in-out infinite;
+        }
+
+        @keyframes holographic-blue {
+            0%, 100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
         }
 
         .update-button::before {
@@ -55,19 +80,20 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 170, 255, 0.4), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
             transition: left 0.5s ease;
         }
 
         .update-button:hover {
-            transform: translateY(-5px);
+            transform: translateY(-5px) scale(1.02);
             box-shadow:
                 0 15px 40px rgba(0, 102, 255, 0.7),
                 0 0 30px rgba(0, 170, 255, 0.5),
                 0 0 50px rgba(139, 92, 246, 0.3),
                 inset 0 1px 0 rgba(255, 255, 255, 0.3);
             border-color: rgba(0, 170, 255, 0.6);
-            text-shadow: 0 0 15px rgba(0, 170, 255, 0.8);
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+            animation-duration: 1s;
         }
 
         .update-button:hover::before {
@@ -710,6 +736,14 @@
 </head>
 
 <body>
+    <!-- Hero Video Background -->
+    <div class="video-background" id="videoBackground" style="display: none;">
+        <video id="heroVideoBackground" muted loop playsinline>
+            <source src="assets/videos/herovideo2.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
     <!-- Main Update Section -->
     <div class="update-section" id="updateSection">
         <div class="update-content">
@@ -723,7 +757,7 @@
             
             <!-- Main button that morphs -->
             <button class="update-button" id="mainUpdateButton" onclick="handleUpdateClick()">
-                UPDATE YOUR SOFTWARE
+                UPGRADE YOUR SOFTWARE
             </button>
         </div>
     </div>
@@ -732,7 +766,7 @@
 
     <!-- Hidden video element -->
     <video id="heroVideo" style="display: none;" muted>
-        <source src="assets/videos/herovideo.mp4" type="video/mp4">
+        <source src="assets/videos/herovideo2.mp4" type="video/mp4">
         Your browser does not support the video tag.
     </video>
 
@@ -803,6 +837,13 @@
                 nameInput.focus();
                 return;
             }
+            
+            // Show and play the background video
+            const videoBackground = document.getElementById('videoBackground');
+            const heroVideoBackground = document.getElementById('heroVideoBackground');
+            
+            videoBackground.style.display = 'block';
+            heroVideoBackground.play();
             
             // Start the video sequence
             startVideoSequence();

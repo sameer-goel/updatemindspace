@@ -183,12 +183,12 @@
 
         .navigation {
             position: absolute;
-            bottom: 30px;
+            bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
             gap: 20px;
-            z-index: 20;
+            z-index: 30;
         }
 
         .nav-button {
@@ -379,6 +379,13 @@
     <!-- Book Reader View -->
     <div class="book-reader" id="bookReaderView">
         <button class="close-button" onclick="closeBook()" title="Close Book">×</button>
+        
+        <!-- Navigation -->
+        <div class="navigation">
+            <button class="nav-button" id="prevBtn" onclick="previousPage()">← Previous</button>
+            <button class="nav-button" id="nextBtn" onclick="nextPage()">Next →</button>
+        </div>
+        
         <div class="reader-container">
             <div class="book-spine"></div>
 
@@ -394,41 +401,39 @@
                 <div class="page-content">
                     <div class="chapter">
                         <div class="chapter-title">Table of Contents</div>
-                        <div class="toc-entry">
-                            <div class="toc-part">Part 1: Many Superpowers are in our Blind spot</div>
-                            <div class="toc-chapter">
-                                <span class="toc-chapter-title">Chapter 1: Is it possible to self-upgrade our operating system too</span>
-                                <span class="toc-dots"></span>
-                                <span class="toc-page">4</span>
+                        
+                        <div style="margin-bottom: 25px;">
+                            <div style="font-size: 18px; font-weight: bold; color: #8b4513; margin-bottom: 15px;">Phase 1</div>
+                            
+                            <div class="toc-entry">
+                                <div class="toc-part">Part 1: Revelation - Many Superpowers are in our Blind spot</div>
+                                <div class="toc-chapter">
+                                    <span class="toc-chapter-title">Is it possible to self-upgrade our operating system too</span>
+                                    <span class="toc-dots"></span>
+                                    <span class="toc-page">5</span>
+                                </div>
+                            </div>
+                            
+                            <div class="toc-entry">
+                                <div class="toc-part">Part 2: Right Tools - GenAI Gym aka Find The Right Questions for you</div>
+                                <div class="toc-chapter">
+                                    <span class="toc-chapter-title">Don't Outsource Your cognitive power, Upgrade it with AI</span>
+                                    <span class="toc-dots"></span>
+                                    <span class="toc-page">6</span>
+                                </div>
+                            </div>
+                            
+                            <div class="toc-entry">
+                                <div class="toc-part">Part 3: Life Integration - How to Integrate this superpower in your Life</div>
+                                <div class="toc-chapter">
+                                    <span class="toc-chapter-title">How to Figure out what works for you the best</span>
+                                    <span class="toc-dots"></span>
+                                    <span class="toc-page">7</span>
+                                </div>
                             </div>
                         </div>
                         
-                        <div class="toc-entry">
-                            <div class="toc-part">Part 2: GenAI Gym aka The Art of the Right Question</div>
-                            <div class="toc-chapter">
-                                <span class="toc-chapter-title">Chapter 2: Don't Outsource Your Compute power, Upgrade it with AI</span>
-                                <span class="toc-dots"></span>
-                                <span class="toc-page">5</span>
-                            </div>
-                        </div>
-                        
-                        <div class="toc-entry">
-                            <div class="toc-part">Part 3: How to Activate this superpower</div>
-                            <div class="toc-chapter">
-                                <span class="toc-chapter-title">Chapter 3: How to Figure out of your self</span>
-                                <span class="toc-dots"></span>
-                                <span class="toc-page">6</span>
-                            </div>
-                        </div>
-                        
-                        <div class="toc-entry">
-                            <div class="toc-part">Bonus</div>
-                            <div class="toc-chapter">
-                                <span class="toc-chapter-title">Chapter 4: AI Predictions for our Future</span>
-                                <span class="toc-dots"></span>
-                                <span class="toc-page">7</span>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
                 <div class="page-number">2</div>
@@ -436,23 +441,25 @@
 
             <!-- Spread 2: Pages 3-4 -->
             <div class="page left-page" id="page3">
-                <div class="page-content image-page">
-                    <img src="assets/images/CultivateInerIntelleigenceUsingAI-cover-page2.png" alt="Cover Page 2" class="page-image">
+                <div class="page-content">
+                    <div class="page-title">Easy Practical Tools you can learn today</div>
+                    <div style="margin-top: 30px; font-size: 16px; line-height: 1.8;">
+                        <p>1. Learn to create a personalized Agentic University.</p>
+                        <p>2. Learn to create your Life Needs AI.</p>
+                        <p>3. Learn to Solve with AI.</p>
+                        <p>4. Learn Visual Learning Capabilities.</p>
+                        <p>5. Learn to solve World Problems.</p>
+                        <p>6. Fun ways to fine tune your focus.</p>
+                    </div>
                 </div>
                 <div class="page-number">3</div>
             </div>
 
             <div class="page right-page" id="page4">
-                <div class="page-content title-page">
-                    <div class="page-title">Coming Soon</div>
+                <div class="page-content image-page">
+                    <img src="assets/images/CultivateInerIntelleigenceUsingAI-cover-page2.png" alt="Cover Page 2" class="page-image">
                 </div>
                 <div class="page-number">4</div>
-            </div>
-
-            <!-- Navigation -->
-            <div class="navigation">
-                <button class="nav-button" id="prevBtn" onclick="previousPage()">← Previous</button>
-                <button class="nav-button" id="nextBtn" onclick="nextPage()">Next →</button>
             </div>
         </div>
     </div>
@@ -464,7 +471,7 @@
         function openBook() {
             document.getElementById('bookCoverView').style.display = 'none';
             document.getElementById('bookReaderView').style.display = 'flex';
-            showPage(currentPage);
+            showPage(currentSpread);
         }
 
         function closeBook() {

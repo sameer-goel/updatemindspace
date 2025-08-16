@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Styles Comparison</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #000428 0%, #004e92 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: white;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 50px;
+            background: linear-gradient(135deg, #00ffff 0%, #ffd700 50%, #00ccff 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .button-card {
+            background: rgba(0, 30, 60, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            border: 1px solid rgba(0, 170, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .button-label {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+
+        .button-description {
+            font-size: 14px;
+            color: #b0b0b0;
+            margin-bottom: 25px;
+            line-height: 1.4;
+        }
+
+        /* Original Blue Gradient Button */
+        .btn-original {
+            background: linear-gradient(135deg, #0066ff 0%, #00aaff 60%, #8b5cf6 80%, #a855f7 100%);
+            border: 2px solid rgba(0, 170, 255, 0.4);
+            border-radius: 15px;
+            padding: 20px 50px;
+            font-size: 24px;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow:
+                0 10px 30px rgba(0, 102, 255, 0.5),
+                0 0 20px rgba(0, 170, 255, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(0, 170, 255, 0.5);
+        }
+
+        .btn-original::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 170, 255, 0.4), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn-original:hover {
+            transform: translateY(-5px);
+            box-shadow:
+                0 15px 40px rgba(0, 102, 255, 0.7),
+                0 0 30px rgba(0, 170, 255, 0.5),
+                0 0 50px rgba(139, 92, 246, 0.3);
+        }
+
+        .btn-original:hover::before {
+            left: 100%;
+        }
+
+        /* Rainbow Gradient Button */
+        .btn-rainbow {
+            background: #000000;
+            border: 3px solid;
+            border-image: linear-gradient(90deg, #00bfff, #0080ff, #8000ff, #ff0080, #ff4000, #ff8000, #ffff00, #80ff00, #00ff80, #00ffff) 1;
+            border-radius: 50px;
+            padding: 20px 50px;
+            font-size: 24px;
+            font-weight: 700;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .btn-rainbow::before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            background: linear-gradient(90deg, #00bfff, #0080ff, #8000ff, #ff0080, #ff4000, #ff8000, #ffff00, #80ff00, #00ff80, #00ffff);
+            border-radius: 50px;
+            z-index: -1;
+            animation: rainbow-rotate 3s linear infinite;
+        }
+
+        @keyframes rainbow-rotate {
+            0% {
+                background: linear-gradient(90deg, #00bfff, #0080ff, #8000ff, #ff0080, #ff4000, #ff8000, #ffff00, #80ff00, #00ff80, #00ffff);
+            }
+
+            25% {
+                background: linear-gradient(90deg, #8000ff, #ff0080, #ff4000, #ff8000, #ffff00, #80ff00, #00ff80, #00ffff, #00bfff, #0080ff);
+            }
+
+            50% {
+                background: linear-gradient(90deg, #ff4000, #ff8000, #ffff00, #80ff00, #00ff80, #00ffff, #00bfff, #0080ff, #8000ff, #ff0080);
+            }
+
+            75% {
+                background: linear-gradient(90deg, #ffff00, #80ff00, #00ff80, #00ffff, #00bfff, #0080ff, #8000ff, #ff0080, #ff4000, #ff8000);
+            }
+
+            100% {
+                background: linear-gradient(90deg, #00bfff, #0080ff, #8000ff, #ff0080, #ff4000, #ff8000, #ffff00, #80ff00, #00ff80, #00ffff);
+            }
+        }
+
+        .btn-rainbow:hover {
+            transform: translateY(-5px) scale(1.05);
+        }
+
+        /* Neon Glow Button */
+        .btn-neon {
+            background: transparent;
+            border: 2px solid #00ffff;
+            border-radius: 15px;
+            padding: 20px 50px;
+            font-size: 24px;
+            font-weight: 600;
+            color: #00ffff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-neon:hover {
+            background: rgba(0, 255, 255, 0.1);
+            box-shadow:
+                0 0 20px #00ffff,
+                0 0 40px #00ffff,
+                0 0 60px #00ffff;
+            text-shadow: 0 0 10px #00ffff;
+        }
+
+        /* Glass Morphism Button */
+        .btn-glass {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 20px 50px;
+            font-size: 24px;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(20px);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-glass:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Metallic Button */
+        .btn-metallic {
+            background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
+            border: 2px solid #444;
+            border-radius: 15px;
+            padding: 20px 50px;
+            font-size: 24px;
+            font-weight: 600;
+            color: #ffffff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                0 8px 25px rgba(0, 0, 0, 0.5);
+        }
+
+        .btn-metallic:hover {
+            background: linear-gradient(145deg, #3a3a3a, #2a2a2a);
+            transform: translateY(-2px);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.2),
+                0 12px 35px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Gradient Border Button */
+        .btn-gradient-border {
+            background: #000;
+            border: 3px solid transparent;
+            border-radius: 15px;
+            padding: 20px 50px;
+            font-size: 24px;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            background-clip: padding-box;
+        }
+
+        .btn-gradient-border::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+            margin: -3px;
+            border-radius: inherit;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57);
+        }
+
+        .btn-gradient-border:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Pulse Button */
+        .btn-pulse {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 15px;
+            padding: 20px 50px;
+            font-size: 24px;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 20px rgba(102, 126, 234, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(102, 126, 234, 0);
+            }
+        }
+
+        .btn-pulse:hover {
+            transform: translateY(-3px);
+            animation-play-state: paused;
+        }
+
+        /* Holographic Button */
+        .btn-holographic {
+            background: linear-gradient(45deg, #ff0080, #ff8c00, #40e0d0, #ee82ee, #ff0080);
+            background-size: 400% 400%;
+            border: none;
+            border-radius: 15px;
+            padding: 20px 50px;
+            font-size: 24px;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: holographic 3s ease-in-out infinite;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        @keyframes holographic {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        .btn-holographic:hover {
+            transform: translateY(-3px) scale(1.05);
+            animation-duration: 1s;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .button-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .title {
+                font-size: 28px;
+            }
+
+            .button-card {
+                padding: 20px;
+            }
+
+            [class^="btn-"] {
+                padding: 16px 40px;
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="title">Button Styles Comparison</h1>
+
+        <div class="button-grid">
+            <!-- Original Button -->
+            <div class="button-card">
+                <div class="button-label">Original Blue Gradient</div>
+                <div class="button-description">The original button with blue-purple gradient, shimmer effect, and
+                    smooth animations</div>
+                <button class="btn-original">UPGRADE</button>
+            </div>
+
+            <!-- Rainbow Button -->
+            <div class="button-card">
+                <div class="button-label">Rainbow Gradient</div>
+                <div class="button-description">Black background with animated rainbow border, modern pill shape</div>
+                <button class="btn-rainbow">UPGRADE</button>
+            </div>
+
+            <!-- Neon Glow Button -->
+            <div class="button-card">
+                <div class="button-label">Neon Glow</div>
+                <div class="button-description">Transparent with cyan neon glow effect, cyberpunk aesthetic</div>
+                <button class="btn-neon">UPGRADE</button>
+            </div>
+
+            <!-- Glass Morphism Button -->
+            <div class="button-card">
+                <div class="button-label">Glass Morphism</div>
+                <div class="button-description">Frosted glass effect with backdrop blur, modern and elegant</div>
+                <button class="btn-glass">UPGRADE</button>
+            </div>
+
+            <!-- Metallic Button -->
+            <div class="button-card">
+                <div class="button-label">Metallic</div>
+                <div class="button-description">Dark metallic finish with inset highlights, industrial look</div>
+                <button class="btn-metallic">UPGRADE</button>
+            </div>
+
+            <!-- Gradient Border Button -->
+            <div class="button-card">
+                <div class="button-label">Gradient Border</div>
+                <div class="button-description">Black center with colorful gradient border, clean and modern</div>
+                <button class="btn-gradient-border">UPGRADE</button>
+            </div>
+
+            <!-- Pulse Button -->
+            <div class="button-card">
+                <div class="button-label">Pulse Animation</div>
+                <div class="button-description">Purple gradient with pulsing ring animation, attention-grabbing</div>
+                <button class="btn-pulse">UPGRADE</button>
+            </div>
+
+            <!-- Holographic Button -->
+            <div class="button-card">
+                <div class="button-label">Holographic</div>
+                <div class="button-description">Shifting holographic colors, futuristic and dynamic</div>
+                <button class="btn-holographic">UPGRADE</button>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
