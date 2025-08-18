@@ -120,32 +120,29 @@
             align-items: center;
             z-index: 2000;
             background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(2px);
+            /* Removed backdrop-filter to show video clearly */
         }
 
         .movie-text {
             font-size: 48px;
-            font-weight: 900;
             color: white;
             text-align: center;
-            text-shadow:
-                2px 2px 4px rgba(0, 0, 0, 0.8),
-                0 0 20px rgba(255, 255, 255, 0.5),
-                0 0 40px rgba(0, 255, 255, 0.3);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
             opacity: 0;
-            transform: translateY(50px) scale(0.8);
-            transition: all 1.2s ease;
-            max-width: 90%;
-            line-height: 1.1;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            font-family: 'Courier New', monospace;
+            transform: translateY(20px);
+            transition: opacity 0.5s, transform 0.5s;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 15px 25px;
+            border-radius: 10px;
+            max-width: 80%;
         }
 
         .typing-cursor {
             display: inline-block;
             background-color: white;
-            width: 3px;
+            width: 5px;
+            height: 40px;
+            vertical-align: middle;
             animation: blink 1s infinite;
         }
 
@@ -164,13 +161,13 @@
 
         .movie-text.show {
             opacity: 1;
-            transform: translateY(0) scale(1);
+            transform: translateY(0);
         }
 
         .movie-text.fade-out {
-            opacity: 0;
-            transform: translateY(-30px) scale(1.1);
-            transition: all 0.8s ease;
+            opacity: 0.3;
+            transform: translateY(0);
+            transition: opacity 0.5s ease;
         }
 
         /* Final button overlay */
@@ -185,7 +182,7 @@
             align-items: center;
             z-index: 2000;
             background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(5px);
+            /* Removed backdrop-filter to show video clearly */
         }
 
         .final-button {
@@ -739,7 +736,7 @@
     <!-- Hero Video Background -->
     <div class="video-background" id="videoBackground" style="display: none;">
         <video id="heroVideoBackground" muted loop playsinline>
-            <source src="assets/videos/herovideo2.mp4" type="video/mp4">
+            <source src="assets/videos/herovideo3.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
     </div>
@@ -757,7 +754,7 @@
             
             <!-- Main button that morphs -->
             <button class="update-button" id="mainUpdateButton" onclick="handleUpdateClick()">
-                UPGRADE YOUR SOFTWARE
+                Inner Voice as a Superpower
             </button>
         </div>
     </div>
@@ -766,7 +763,7 @@
 
     <!-- Hidden video element -->
     <video id="heroVideo" style="display: none;" muted>
-        <source src="assets/videos/herovideo2.mp4" type="video/mp4">
+        <source src="assets/videos/herovideo3.mp4" type="video/mp4">
         Your browser does not support the video tag.
     </video>
 
@@ -786,7 +783,7 @@
     <div class="congratulations-overlay" id="congratulationsOverlay">
         <div class="congratulations-content">
             <div class="installation-status">
-                <div class="status-text">Activation Successful</div>
+                <div class="status-text">Innner Voice Activation Successful</div>
                 <div class="progress-container-modal">
                     <div class="progress-bar-modal">
                         <div class="progress-fill-modal" id="progressFillModal"></div>
@@ -794,12 +791,8 @@
                     <div class="progress-percentage">100%</div>
                 </div>
             </div>
-
-            <div class="superpower-section">
-                <img src="assets/images/1stSuperpower.png" alt="1st Superpower" class="superpower-logo">
-            </div>
             <div class="choice-buttons">
-                <button class="choice-button test" onclick="testSuperpowers()">Check</button>
+                <button class="choice-button test" onclick="testSuperpowers()">See it in Action</button>
             </div>
         </div>
     </div>
@@ -869,10 +862,10 @@
 
             // Movie-style text sequence
             const messages = [
-                "Cleaning cache. Overthinking Free Successful.",
-                "Activating Power of Now. Present Moment Activated.",
-                "Upgrading to 3.5 Operating System",
-                `${capturedUserName} software updated Successfully.`
+                "Searching Inner Voice...found it.",
+                "Charging Neural Network",
+                "Inner voice is self-upgrade on.",
+                "Test Your Superpower Now."
             ];
 
             let currentMessage = 0;
@@ -886,7 +879,7 @@
                     if (i < text.length) {
                         element.innerHTML += text.charAt(i);
                         i++;
-                        setTimeout(typeChar, 80); // Typing speed
+                        setTimeout(typeChar, 70); // Typing speed
                     } else {
                         // Add blinking cursor briefly
                         element.innerHTML += '<span class="typing-cursor">|</span>';
@@ -894,7 +887,7 @@
                             // Remove cursor and proceed
                             element.innerHTML = text;
                             if (callback) callback();
-                        }, 500);
+                        }, 400);
                     }
                 }
                 typeChar();
@@ -927,8 +920,8 @@
                                         }, 500);
                                     }, 1000);
                                 }
-                            }, 800);
-                        }, 1500); // Show typed message for 1.5 seconds
+                            }, 700);
+                        }, 1300); // Show typed message for 1.3 seconds
                     });
                 }
             }

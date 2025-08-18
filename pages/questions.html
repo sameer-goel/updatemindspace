@@ -41,11 +41,11 @@
         .question-container {
             background: linear-gradient(135deg, rgba(0, 30, 60, 0.3), rgba(0, 15, 40, 0.4));
             border-radius: 20px;
-            padding: 30px 25px;
-            width: 60vw;
-            max-width: 800px;
-            height: auto;
-            min-height: 60vh;
+            padding: 20px;
+            width: 70vw;
+            height: 70vh;
+            max-width: 900px;
+            max-height: 700px;
             text-align: center;
             box-shadow:
                 0 0 50px rgba(0, 170, 255, 0.4),
@@ -58,6 +58,8 @@
             overflow-y: auto;
             backdrop-filter: blur(10px);
             z-index: 10;
+            display: flex;
+            flex-direction: column;
         }
 
         .question-slide {
@@ -65,6 +67,8 @@
             opacity: 0;
             transform: translateX(50px);
             transition: all 0.5s ease;
+            flex: 1;
+            overflow-y: auto;
         }
 
         .question-slide.active {
@@ -90,7 +94,8 @@
             justify-content: center;
             align-items: center;
             gap: 10px;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
+            flex-shrink: 0;
         }
 
         .progress-dot {
@@ -168,8 +173,8 @@
         }
 
         .answer-section {
-            margin: 20px 0;
-            padding: 20px;
+            margin: 15px 0;
+            padding: 15px;
             background: rgba(0, 170, 255, 0.1);
             border-radius: 15px;
             border: 1px solid rgba(0, 170, 255, 0.3);
@@ -211,11 +216,11 @@
         }
 
         .instruction-text {
-            font-size: 18px;
+            font-size: 16px;
             color: #e0e0e0;
             font-style: italic;
-            margin-top: 30px;
-            padding: 20px;
+            margin-top: 15px;
+            padding: 15px;
             background: rgba(255, 255, 255, 0.05);
             border-radius: 10px;
             border-left: 4px solid #00aaff;
@@ -250,7 +255,7 @@
             box-shadow: 0 12px 35px rgba(0, 102, 255, 0.6), 0 0 25px rgba(0, 170, 255, 0.5);
         }
 
-        .continue-button, .ready-button, .learn-more-button {
+        .continue-button, .ready-button, .learn-more-button, .previous-button {
             background: linear-gradient(135deg, #0066ff 0%, #00aaff 60%, #8b5cf6 80%, #a855f7 100%);
             border: 2px solid rgba(0, 170, 255, 0.4);
             border-radius: 15px;
@@ -268,7 +273,19 @@
             animation: breath 3s ease-in-out infinite;
         }
 
-        .continue-button::before, .ready-button::before, .learn-more-button::before {
+        .previous-button {
+            margin-right: 15px;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 15px;
+            flex-shrink: 0;
+        }
+
+        .continue-button::before, .ready-button::before, .learn-more-button::before, .previous-button::before {
             content: '';
             position: absolute;
             top: 0;
@@ -279,7 +296,7 @@
             transition: left 0.5s ease;
         }
 
-        .continue-button:hover, .ready-button:hover, .learn-more-button:hover {
+        .continue-button:hover, .ready-button:hover, .learn-more-button:hover, .previous-button:hover {
             transform: translateY(-3px) scale(1.05);
             box-shadow:
                 0 15px 40px rgba(0, 102, 255, 0.6),
@@ -288,7 +305,7 @@
             animation-play-state: paused; /* Pause breathing on hover */
         }
 
-        .continue-button:hover::before, .ready-button:hover::before, .learn-more-button:hover::before {
+        .continue-button:hover::before, .ready-button:hover::before, .learn-more-button:hover::before, .previous-button:hover::before {
             left: 100%;
         }
 
@@ -459,7 +476,7 @@
             .question-container {
                 padding: 20px 15px;
                 width: 90vw;
-                height: 85vh;
+                height: 80vh;
             }
             .question-text { font-size: 18px; }
             .question-emphasis { font-size: 20px; }
@@ -485,6 +502,7 @@
     <!-- Test Your Superpower Game Screen -->
     <div class="game-overlay" id="gameOverlay">
         <div class="game-content">
+            <h1 style="color: #00aaff; font-size: 32px; font-weight: 600; text-shadow: 0 0 20px rgba(0, 170, 255, 0.6); margin: 0 0 30px 0; text-align: center;">Self-Reflection</h1>
             <div class="game-instructions">
                 <div class="instruction-step">
                     <div class="step-number">1</div>
@@ -492,19 +510,19 @@
                 </div>
                 <div class="instruction-step">
                     <div class="step-number">2</div>
-                    <div class="step-text">There are no right or wrong answers</div>
+                    <div class="step-text">There are no Right or Wrong answers. You just feel them</div>
                 </div>
                 <div class="instruction-step">
                     <div class="step-number">3</div>
-                    <div class="step-text">Write down whatever comes to mind</div>
+                    <div class="step-text">Read Question > Close your eyes > Breath In and Feel the Answer</div>
                 </div>
                 <div class="instruction-step">
                     <div class="step-number">4</div>
-                    <div class="step-text">Trust your Intuition</div>
+                    <div class="step-text">Write whatever comes</div>
                 </div>
             </div>
             <div class="game-actions">
-                <button class="ready-button" onclick="startGame()">Lets go</button>
+                <button class="ready-button" onclick="startGame()">Lets Go!!</button>
             </div>
         </div>
     </div>
@@ -522,10 +540,11 @@
     <div class="completion-modal" id="completionModal">
         <div class="completion-content">
             <img src="../assets/images/1stSuperpower.png" alt="1st Superpower" class="completion-logo">
-            <div class="completion-title">Superpowers Self-Revealed!</div>
+            <div class="completion-title">"Self-reflection" is Great Superpower.</div>
             <div class="completion-message">Your superpowers have been self-revealed through these well crafted 7 questions aka Human prompt engineering.</div>
             <div class="completion-quote">
-                "<span id="userName"></span> Self-reflection is superpower that enables us to be aware of our life, helps to shape direction towards ominipresent happiness from fleeting pleasures."
+                <span id="userName"></span>
+                ", when life is needs a compass, self reflection is The Best way."
             </div>
             <div class="book-logo" onclick="learnMore()" title="Read Book">📖</div>
         </div>
@@ -535,13 +554,13 @@
         // --- CONFIGURATION ---
         const totalQuestions = 7;
         const questions = [
-            { text: "If you could ask world's most powerful AI this <span class='question-emphasis'>ONE Question</span>. One Question that would change your life forever, what would that question be?", placeholder: "My One Question would be...", instruction: "Think deeply. What would truly transform your life?" },
-            { text: "If AI can help you build one application that can provide <span class='question-emphasis'>life long happiness</span>, what that would be?", placeholder: "I feel when...", instruction: "Something that give you the most bliss?" },
-            { text: "How you feel <span class='question-emphasis'>happiness</span>, say in one line?", placeholder: "Happiness is...", instruction: "Moments you smiled for no reasons." },
-            { text: "How do you deal with things that <span class='question-emphasis'>bothers you</span>?", placeholder: "The most...", instruction: "Be honest. What weighs on your mind?" },
-            { text: "How do you feel we humans can evolve beyond our limitations in an <span class='question-emphasis'>easy way</span>?", placeholder: "Easy way is...", instruction: "What's the simplest path to human evolution?" },
-            { text: "How do you clear <span class='question-emphasis'>mental fog</span>?", placeholder: "I can...", instruction: "What brings you clarity and focus?" },
-            { text: "What is the <span class='question-emphasis'>best gift of life</span>?", placeholder: "My best gift is...", instruction: "What do you treasure most about being alive?" }
+            { text: "If you could ask world's most powerful AI this <span class='question-emphasis'>ONE Question</span>. One Question that would change your life forever.", placeholder: "My One Question would be...", instruction: "Hint: Think deeply. What would truly transform your life?" },
+            { text: "What is the <span class='question-emphasis'>best gift of life</span>?", placeholder: "I feel when...", instruction: "Hint: Something that give you the most bliss?" },
+            { text: "How you feel <span class='question-emphasis'>happiness</span>, in one sentence?", placeholder: "Happiness is...", instruction: "Hint: Moments you smiled for no reasons." },
+            { text: "How do you deal with events that <span class='question-emphasis'>bothers you</span>?", placeholder: "The most...", instruction: "Hint: Be honest. What weighs on your mind?" },
+            { text: "How do you feel we humans can evolve beyond our limitations in an <span class='question-emphasis'>easy way</span>.", placeholder: "Easy way is...", instruction: "Hint: What's the simplest path to human evolution?" },
+            { text: "How do you clear <span class='question-emphasis'>mental fog</span>?", placeholder: "I can...", instruction: "Hint: What brings you clarity and focus?" },
+            { text: "If AI can help you build one application that can provide <span class='question-emphasis'>life long happiness</span>, what that would be?", placeholder: "My best gift is...", instruction: "Hint: What do you treasure most about being alive?" }
         ];
 
         // --- STATE ---
@@ -614,23 +633,17 @@
                         <textarea class="answer-textarea" rows="3" placeholder="${questions[i].placeholder}"></textarea>
                     </div>
                     <div class="instruction-text">${questions[i].instruction}</div>
-                    <button class="continue-button">
-                        ${i === totalQuestions - 1 ? "Complete" : "Next"}
-                    </button>
+                    <div class="button-container">
+                        ${i > 0 ? '<button class="previous-button" onclick="previousQuestion()">Previous</button>' : ''}
+                        <button class="continue-button" onclick="${i === totalQuestions - 1 ? 'completeQuestions()' : 'nextQuestion()'}">
+                            ${i === totalQuestions - 1 ? "Complete" : "Next"}
+                        </button>
+                    </div>
                 `;
                 questionContainer.appendChild(slide);
             }
             
-             // Add event listeners to buttons after they are created
-            document.querySelectorAll('.continue-button').forEach((button, index) => {
-                button.addEventListener('click', () => {
-                    if (index < totalQuestions - 1) {
-                        nextQuestion();
-                    } else {
-                        completeQuestions();
-                    }
-                });
-            });
+            // Event listeners are now handled via onclick attributes in HTML
         }
 
         // --- GAME FLOW ---
@@ -682,6 +695,26 @@
                     currentQuestion++;
                     const nextSlide = document.getElementById(`question${currentQuestion}`);
                     nextSlide.classList.add('active');
+                    
+                    updateProgress();
+                }, 500);
+            }
+        }
+
+        function previousQuestion() {
+            if (clickSound) clickSound.triggerAttackRelease("C4", "8n");
+            if (progressSound) setTimeout(() => progressSound.triggerAttackRelease("A4", "8n"), 200);
+
+            if (currentQuestion > 0) {
+                const currentSlide = document.getElementById(`question${currentQuestion}`);
+                currentSlide.classList.add('fade-out');
+                
+                setTimeout(() => {
+                    currentSlide.classList.remove('active', 'fade-out');
+                    
+                    currentQuestion--;
+                    const prevSlide = document.getElementById(`question${currentQuestion}`);
+                    prevSlide.classList.add('active');
                     
                     updateProgress();
                 }, 500);

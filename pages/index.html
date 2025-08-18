@@ -42,7 +42,7 @@
                 inset 0 1px 0 rgba(255, 255, 255, 0.2);
             position: relative;
             overflow: hidden;
-            backdrop-filter: blur(10px);
+            /* Removed backdrop-filter to show video clearly */
             text-transform: uppercase;
             letter-spacing: 2px;
             text-shadow: 0 0 10px rgba(0, 170, 255, 0.5);
@@ -90,37 +90,48 @@
             width: 100%;
             height: 100%;
             display: none;
-            justify-content: center;
-            align-items: center;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            padding: 50px;
             z-index: 2000;
             background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(2px);
+            /* Removed backdrop-filter to show video clearly */
+            overflow: hidden;
         }
 
         .movie-text {
-            font-size: 48px;
-            font-weight: 900;
-            color: white;
-            text-align: center;
-            text-shadow:
-                2px 2px 4px rgba(0, 0, 0, 0.8),
-                0 0 20px rgba(255, 255, 255, 0.5),
-                0 0 40px rgba(0, 255, 255, 0.3);
+            font-size: 16px;
+            font-weight: 400;
+            color: #00ff9d;
+            text-align: left;
+            text-shadow: 0 0 5px rgba(0, 255, 157, 0.7);
             opacity: 0;
-            transform: translateY(50px) scale(0.8);
-            transition: all 1.2s ease;
-            max-width: 90%;
-            line-height: 1.1;
-            letter-spacing: 2px;
-            text-transform: uppercase;
+            transform: translateX(-20px);
+            transition: opacity 0.3s, transform 0.3s;
+            max-width: 100%;
+            margin-bottom: 4px;
+            line-height: 1.4;
+            letter-spacing: 0.5px;
             font-family: 'Courier New', monospace;
+            display: flex;
+            align-items: center;
+        }
+        
+        .movie-text::before {
+            content: '>';
+            margin-right: 8px;
+            color: #00ff9d;
         }
 
         .typing-cursor {
             display: inline-block;
-            background-color: white;
-            width: 3px;
-            animation: blink 1s infinite;
+            background-color: #00ff9d;
+            width: 2px;
+            height: 14px;
+            margin-left: 2px;
+            vertical-align: middle;
+            animation: blink 0.8s infinite;
         }
 
         @keyframes blink {
@@ -138,13 +149,55 @@
 
         .movie-text.show {
             opacity: 1;
-            transform: translateY(0) scale(1);
+            transform: translateX(0);
         }
 
         .movie-text.fade-out {
-            opacity: 0;
-            transform: translateY(-30px) scale(1.1);
-            transition: all 0.8s ease;
+            opacity: 0.3;
+            transform: translateX(0);
+            transition: opacity 0.5s ease;
+        }
+        
+        .log-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .timestamp {
+            color: #00aaff;
+            font-size: 14px;
+            margin-right: 10px;
+            opacity: 0.8;
+        }
+        
+        .log-type {
+            color: #ff9500;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .log-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .timestamp {
+            color: #00aaff;
+            font-size: 14px;
+            margin-right: 10px;
+            opacity: 0.8;
+        }
+        
+        .log-type {
+            color: #ff9500;
+            font-weight: bold;
+            margin-right: 10px;
         }
 
         /* Final button overlay */
@@ -159,7 +212,7 @@
             align-items: center;
             z-index: 2000;
             background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(5px);
+            /* Removed backdrop-filter to show video clearly */
         }
 
         .final-button {
@@ -673,7 +726,7 @@
 
     <!-- Hidden video element -->
     <video id="heroVideo" style="display: none;" muted>
-        <source src="../assets/videos/herovideo.mp4" type="video/mp4">
+        <source src="../assets/videos/herovideo3.mp4" type="video/mp4">
         Your browser does not support the video tag.
     </video>
 
@@ -771,56 +824,103 @@
             // Show movie overlay
             movieOverlay.style.display = 'flex';
 
-            // Movie-style text sequence
-            const messages = [
-                "Found Inactive superpowers",
-                "Activating all Inactive processes",
-                "Loading powers to active mind",
-                "Test You Superpower Now."
+            // Create log container
+            const logContainer = document.createElement('div');
+            logContainer.className = 'log-container';
+            movieOverlay.appendChild(logContainer);
+            
+            // Log-style text sequence
+            const logs = [
+                { type: "SYSTEM", message: "Initializing neural interface..." },
+                { type: "SCAN", message: "Searching Inner Voice patterns..." },
+                { type: "FOUND", message: "Inner Voice signature detected" },
+                { type: "SYSTEM", message: "Charging Neural Network: 25%" },
+                { type: "SYSTEM", message: "Charging Neural Network: 50%" },
+                { type: "SYSTEM", message: "Charging Neural Network: 75%" },
+                { type: "SYSTEM", message: "Charging Neural Network: 100%" },
+                { type: "ALERT", message: "Inner voice self-upgrade protocol initiated" },
+                { type: "CONFIG", message: "Adjusting synaptic parameters" },
+                { type: "SYSTEM", message: "User identified: ${capturedUserName || 'User'}" },
+                { type: "SUCCESS", message: "Software updated successfully" },
+                { type: "SYSTEM", message: "Finalizing neural pathways" }
             ];
 
-            let currentMessage = 0;
+            let currentLog = 0;
 
-            function typeText(text, element, callback) {
-                element.innerHTML = '';
-                element.classList.add('show');
+            function getTimestamp() {
+                const now = new Date();
+                return `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}.${now.getMilliseconds().toString().padStart(3, '0')}`;
+            }
+
+            function typeText(logEntry, callback) {
+                const logElement = document.createElement('div');
+                logElement.className = 'movie-text';
+                logContainer.appendChild(logElement);
+                
+                const timestamp = document.createElement('span');
+                timestamp.className = 'timestamp';
+                timestamp.textContent = getTimestamp() + ' ';
+                logElement.appendChild(timestamp);
+                
+                const logType = document.createElement('span');
+                logType.className = 'log-type';
+                logType.textContent = '[' + logEntry.type + ']';
+                logElement.appendChild(logType);
+                
+                const messageSpan = document.createElement('span');
+                logElement.appendChild(messageSpan);
+                
+                logElement.classList.add('show');
                 let i = 0;
+                const message = logEntry.message;
 
                 function typeChar() {
-                    if (i < text.length) {
-                        element.innerHTML += text.charAt(i);
+                    if (i < message.length) {
+                        messageSpan.textContent += message.charAt(i);
                         i++;
-                        setTimeout(typeChar, 80); // Typing speed
+                        setTimeout(typeChar, 30); // Faster typing speed for logs
                     } else {
                         // Add blinking cursor briefly
-                        element.innerHTML += '<span class="typing-cursor">|</span>';
+                        const cursor = document.createElement('span');
+                        cursor.className = 'typing-cursor';
+                        logElement.appendChild(cursor);
+                        
                         setTimeout(() => {
                             // Remove cursor and proceed
-                            element.innerHTML = text;
+                            if (logElement.contains(cursor)) {
+                                logElement.removeChild(cursor);
+                            }
                             if (callback) callback();
-                        }, 500);
+                        }, 200);
                     }
                 }
                 typeChar();
             }
 
             function showMovieText() {
-                if (currentMessage < messages.length) {
-                    // Type current message
-                    typeText(messages[currentMessage], movieText, () => {
+                if (currentLog < logs.length) {
+                    // Type current log entry
+                    typeText(logs[currentLog], () => {
+                        // Auto-scroll to bottom of log container
+                        logContainer.scrollTop = logContainer.scrollHeight;
+                        
                         setTimeout(() => {
-                            // Fade out current message
-                            movieText.classList.remove('show');
-                            movieText.classList.add('fade-out');
-
-                            setTimeout(() => {
-                                movieText.classList.remove('fade-out');
-                                currentMessage++;
-
-                                if (currentMessage < messages.length) {
-                                    showMovieText();
-                                } else {
-                                    // Skip final button and go directly to congratulations
+                            currentLog++;
+                            
+                            if (currentLog < logs.length) {
+                                showMovieText();
+                            } else {
+                                // Add final system message
+                                const finalLogEntry = { 
+                                    type: "SYSTEM", 
+                                    message: "Test Your Superpower Now - Voice Activation Complete" 
+                                };
+                                
+                                typeText(finalLogEntry, () => {
+                                    // Auto-scroll to bottom
+                                    logContainer.scrollTop = logContainer.scrollHeight;
+                                    
+                                    // Transition to congratulations overlay
                                     setTimeout(() => {
                                         movieOverlay.style.display = 'none';
                                         congratulationsOverlay.style.display = 'flex';
@@ -829,10 +929,10 @@
                                         setTimeout(() => {
                                             document.getElementById('progressFillModal').style.width = '100%';
                                         }, 500);
-                                    }, 1000);
-                                }
-                            }, 800);
-                        }, 1500); // Show typed message for 1.5 seconds
+                                    }, 2000);
+                                });
+                            }
+                        }, 300); // Shorter delay between logs
                     });
                 }
             }
